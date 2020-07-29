@@ -81,24 +81,47 @@ namespace EmployeeManagement.Api.Controllers
                     "Error connecting data to the server");
             }
         }
-        //[HttpPut]
 
-        //public async Task<ActionResult<Employee>> UpdateEmployee(Employee employee)
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<Employee>> UpdateEmployee(int id, Employee employee)
+        {
+            try
+            {
+                if (id != employee.EmployeeId)
+                    return BadRequest("Employee ID mismatch");
+
+                var employeeToUpdate = await employeeRepository.GetEmployee(id);
+
+                if (employeeToUpdate == null)
+                    return NotFound($"Employee with Id = {id} not found");
+
+                return await employeeRepository.UpdateEmployee(employee);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error updating data");
+            }
+        }
+
+        //[HttpDelete("{id:int}")]
+        //public async Task<ActionResult<Employee>> DeleteEmployee(int id)
         //{
         //    try
         //    {
-        //        var result = await employeeRepository.UpdateEmployee(employee);
+        //        var employeeToDelete = await employeeRepository.GetEmployee(id);
 
-        //        if (result == null)
+        //        if (employeeToDelete == null)
         //        {
-        //            return NotFound();
+        //            return NotFound($"Employee with Id = {id} not found");
         //        }
-        //        return result;
+
+        //        return await employeeRepository.DeleteEmployee(id);
         //    }
         //    catch (Exception)
         //    {
         //        return StatusCode(StatusCodes.Status500InternalServerError,
-        //            "Error retrieving data from the server  ");
+        //            "Error deleting data");
         //    }
         //}
     }
