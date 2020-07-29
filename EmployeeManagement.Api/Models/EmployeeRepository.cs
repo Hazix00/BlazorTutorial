@@ -74,17 +74,20 @@ namespace EmployeeManagement.Api.Models
 
         public async Task<Employee> UpdateEmployee(Employee employee)
         {
-            var result = await appDbContext.Employees.FirstOrDefaultAsync(e => e.EmployeeId == employee.EmployeeId);
+            var result = await appDbContext.Employees
+                .FirstOrDefaultAsync(e => e.EmployeeId == employee.EmployeeId);
 
             if (result != null)
             {
-                result = employee;
+
+                foreach (var prop in typeof(Employee).GetProperties())
+                {
+                    prop.SetValue(result, prop.GetValue(employee, null)); 
+                }
 
                 await appDbContext.SaveChangesAsync();
-
                 return result;
             }
-
             return null;
         }
     }
