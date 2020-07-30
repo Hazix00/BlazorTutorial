@@ -78,7 +78,7 @@ namespace EmployeeManagement.Api.Controllers
             catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                    "Error connecting data to the server");
+                    "Error connecting to the server");
             }
         }
 
