@@ -28,8 +28,13 @@ namespace EmployeeManagement.Web
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            //API services
+            var apiUri = new Uri("https://localhost:44397/");
             services.AddHttpClient<IEmployeeService, EmployeeService>(client => 
-                client.BaseAddress = new Uri("https://localhost:44397/")
+                client.BaseAddress = apiUri
+            );
+            services.AddHttpClient<IDepartmentService, DepartmentService>(client =>
+                client.BaseAddress = apiUri
             );
         }
 
