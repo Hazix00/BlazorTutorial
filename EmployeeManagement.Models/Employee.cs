@@ -12,6 +12,7 @@ namespace EmployeeManagement.Models
         [Required]
         [MinLength(2)]
         public string LastName { get; set; }
+        [EmailAddress]
         public string Email { get; set; }
         public DateTime DateOfBrith { get; set; }
         public Gender Gender { get; set; }
